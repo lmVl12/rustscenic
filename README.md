@@ -13,6 +13,24 @@ pip install rustscenic
 
 Five runtime dependencies (numpy, pandas, pyarrow, scipy, anndata). Python 3.10–3.13, Linux + macOS (x86_64 + aarch64). No dask, no Java, no CUDA.
 
+The practical SCENIC+ compute path in one package:
+
+```mermaid
+flowchart LR
+    rna["RNA AnnData"]
+    atac["ATAC AnnData / fragments"]
+    grn["GRN inference"]
+    chrom["topics + cisTarget + enhancer links"]
+    ereg["eRegulons"]
+    auc["AUCell activity<br/>cells x regulons"]
+
+    rna --> grn
+    atac --> chrom
+    grn --> ereg
+    chrom --> ereg
+    ereg --> auc
+```
+
 ## Goal
 
 rustscenic is being built as the single-install replacement for the practical SCENIC / SCENIC+ workflow: RNA GRN inference, AUCell regulon activity, motif enrichment, ATAC fragment preprocessing, topic modelling, enhancer-gene linking, and eRegulon assembly in one package.
