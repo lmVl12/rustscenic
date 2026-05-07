@@ -8,14 +8,7 @@
 A Rust + PyO3 replacement for the SCENIC / SCENIC+ compute stack: one install, modern Python, low-memory CPU execution, and atlas-scale regulatory-network analysis without Java, dask, CUDA, or fragile multi-tool environments.
 
 ```bash
-# Install from PyPI:
 pip install rustscenic
-
-# Or install a prebuilt wheel from the latest tagged GitHub Release for your platform:
-# macOS Apple Silicon:
-pip install https://github.com/Ekin-Kahraman/rustscenic/releases/download/v0.4.0/rustscenic-0.4.0-cp310-abi3-macosx_11_0_arm64.whl
-# Linux x86_64:
-pip install https://github.com/Ekin-Kahraman/rustscenic/releases/download/v0.4.0/rustscenic-0.4.0-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
 ```
 
 Five runtime dependencies (numpy, pandas, pyarrow, scipy, anndata). Python 3.10–3.13, Linux + macOS (x86_64 + aarch64). No dask, no Java, no CUDA.
