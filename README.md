@@ -31,13 +31,15 @@ flowchart LR
     ereg --> auc
 ```
 
+## Status
+
+**v0.4.1**: end-to-end on real PBMC and mouse brain E18 multiome via the public `pipeline.run`. See [CHANGELOG](CHANGELOG.md) and [`validation/`](validation/) for evidence and caveats.
+
 ## Goal
 
 rustscenic is being built as the single-install replacement for the practical SCENIC / SCENIC+ workflow: RNA GRN inference, AUCell regulon activity, motif enrichment, ATAC fragment preprocessing, topic modelling, enhancer-gene linking, and eRegulon assembly in one package.
 
 The project is intentionally not a thin wrapper around the old stack. The target is a simpler architecture that makes regulatory-network analysis easier to install, cheaper to run on CPU, deterministic under a fixed seed, and robust to real atlas conventions such as ENSEMBL `var_names`, duplicate gene symbols, backed AnnData, and UCSC/Ensembl chromosome mismatches.
-
-v0.4.0 is the first release tagged "publishable end-to-end": a single `rustscenic.pipeline.run(...)` call on real 10x multiome produces every SCENIC+ artefact (GRN → AUCell → topics → cistarget → enhancer-link → eRegulon) on two independent public datasets — PBMC 3k (human, adult immune; 1,091 eRegulons, `validation/multiome_pipeline_run_v0.3.9.json`) and mouse brain E18 5k (mouse, embryonic CNS; 1,125 eRegulons; 9/9 expected cortex marker TFs present in the regulon set — name-presence check, not a cell-type-enrichment claim; `validation/multiome_pipeline_run_v0.3.10_brain_e18.json`). GRN parity vs current pyscenic 0.12.1 + arboreto 0.1.6 has been regenerated against an identical PBMC fixture (`validation/parity_v0310/grn_parity_pbmc3k_full.json` — per-edge Spearman 0.611, within-TF Spearman mean 0.632, 1.78× wall speedup vs pyscenic in dask-sync mode; not strictly apples-to-apples against dask-parallel pyscenic). Outstanding follow-ups for v0.4.x: region-cistarget kernel parity refresh, AUCell wall-time/Pearson refresh, broader public-dataset sweep beyond PBMC + mouse brain. Raw 10x `pipeline.run` without caller-side ATAC pre-subset is deferred to v0.5 (documented workflow caveat, not a correctness gap).
 
 ## What it does
 
