@@ -16,12 +16,12 @@ Five runtime dependencies (numpy, pandas, pyarrow, scipy, anndata). Python 3.10â
 The practical SCENIC+ compute path in one package:
 
 ```mermaid
-flowchart TB
-    rna["RNA AnnData"] --> grn["GRN inference"]
-    atac["ATAC AnnData / fragments"] --> chrom["topics + cisTarget + enhancer links"]
+flowchart LR
+    rna["RNA<br/>AnnData"] --> grn["GRN"]
+    atac["ATAC<br/>AnnData/fragments"] --> chrom["topics<br/>cisTarget<br/>enhancer links"]
     grn --> ereg["eRegulons"]
     chrom --> ereg
-    ereg --> auc["AUCell activity<br/>cells x regulons"]
+    ereg --> auc["AUCell<br/>cells x regulons"]
 ```
 
 ## Status
