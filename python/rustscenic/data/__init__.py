@@ -23,6 +23,17 @@ from typing import Literal, Optional
 _DATA_DIR = Path(__file__).parent
 
 
+# Single source of truth for species aliases. ``rustscenic.pipeline._load_tfs``
+# imports this set so the ``tfs="hs"`` shortcut on ``pipeline.run`` matches
+# what ``data.tfs(species=...)`` accepts. Adding an alias here exposes it
+# through both surfaces automatically.
+_TF_ALIAS_MAP = {
+    "hs": "hs", "human": "hs", "homo_sapiens": "hs", "hg38": "hs",
+    "mm": "mm", "mouse": "mm", "mus_musculus": "mm", "mm10": "mm",
+}
+_TF_ALIASES = frozenset(_TF_ALIAS_MAP.keys())
+
+
 def tfs(species: Literal["hs", "mm"] = "hs") -> list[str]:
     """Return the bundled transcription-factor list for ``species``.
 
@@ -37,13 +48,7 @@ def tfs(species: Literal["hs", "mm"] = "hs") -> list[str]:
     Plain Python list of TF gene symbols, suitable to pass directly as
     the ``tf_names`` argument to ``rustscenic.grn.infer``.
     """
-    # Accept the common long-form aliases the codebase suggests elsewhere
-    # so a user following the species-hint diagnostic doesn't hit a new error.
-    alias = {
-        "hs": "hs", "human": "hs", "homo_sapiens": "hs", "hg38": "hs",
-        "mm": "mm", "mouse": "mm", "mus_musculus": "mm", "mm10": "mm",
-    }
-    canonical = alias.get(str(species).lower())
+    canonical = _TF_ALIAS_MAP.get(str(species).lower())
     if canonical is None:
         raise ValueError(
             f"unknown species {species!r} — use 'hs' / 'human' / 'hg38' "

@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.4.1 — 2026-05-07
+
+### Bug fixes
+
+- **`pipeline.run(tfs="hs"/"mm")` species shortcut** — `_load_tfs` was
+  treating species aliases as filesystem paths and crashing with
+  `FileNotFoundError: [Errno 2] No such file or directory: 'hs'`. The
+  README documents the species shortcut as the default zero-config path,
+  so a user following the docs hit a hard crash before any compute ran.
+  Now routes `"hs"`/`"mm"` and the long-form aliases (`human`, `mouse`,
+  `homo_sapiens`, `mus_musculus`, `hg38`, `mm10`, case-insensitive) to
+  the bundled list via `data.tfs(species=...)`. Both `str` and `Path`
+  inputs hit the alias check, so `Path("hs")` also resolves correctly.
+  Aliases now come from a single source of truth in
+  `rustscenic.data._TF_ALIAS_MAP` to avoid silent drift between the
+  pipeline orchestrator and the public `data.tfs` helper. 17 regression
+  tests added in `tests/test_pipeline_load_tfs.py`, including a
+  bundled-content spot check (`SPI1 in hs`, `Pax6 in mm`) so an
+  accidental TF-list swap or truncation is caught.
+
+### Other
+
+- PyPI listing now live at https://pypi.org/project/rustscenic/ (trusted
+  publisher via `release.yml`). Install with `pip install rustscenic`.
+
 ## 0.4.0 — 2026-05-05
 
 First release tagged **publishable end-to-end**. A single

@@ -490,7 +490,16 @@ def _load_tfs(tfs):
         # custom lists.
         from . import data
         return data.tfs(species="hs")
+    # Species shortcut. Accept the same set of aliases ``data.tfs()`` accepts
+    # (single source of truth in ``rustscenic.data._TF_ALIASES``), case-
+    # insensitively, and route to the bundled list. Without this branch the
+    # ``isinstance(str, Path)`` check below treats ``"hs"`` (or ``Path("hs")``)
+    # as a relative path and crashes with ``FileNotFoundError: 'hs'``
+    # (regression in v0.4.0).
     if isinstance(tfs, (str, Path)):
+        from . import data
+        if str(tfs).lower() in data._TF_ALIASES:
+            return data.tfs(species=str(tfs))
         path = Path(tfs)
         lines = [ln.strip() for ln in path.read_text().splitlines() if ln.strip()]
         return lines
