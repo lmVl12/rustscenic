@@ -16,24 +16,17 @@ Five runtime dependencies (numpy, pandas, pyarrow, scipy, anndata). Python 3.10�
 The practical SCENIC+ compute path in one package:
 
 ```mermaid
-flowchart LR
-    rna["RNA AnnData"]
-    atac["ATAC AnnData / fragments"]
-    grn["GRN inference"]
-    chrom["topics + cisTarget + enhancer links"]
-    ereg["eRegulons"]
-    auc["AUCell activity<br/>cells x regulons"]
-
-    rna --> grn
-    atac --> chrom
-    grn --> ereg
+flowchart TB
+    rna["RNA AnnData"] --> grn["GRN inference"]
+    atac["ATAC AnnData / fragments"] --> chrom["topics + cisTarget + enhancer links"]
+    grn --> ereg["eRegulons"]
     chrom --> ereg
-    ereg --> auc
+    ereg --> auc["AUCell activity<br/>cells x regulons"]
 ```
 
 ## Status
 
-**v0.4.1**: end-to-end on real PBMC and mouse brain E18 multiome via the public `pipeline.run`. See [CHANGELOG](CHANGELOG.md) and [`validation/`](validation/) for evidence and caveats.
+**Current release: v0.4.1** on PyPI. v0.4.0 established publishable real-data end-to-end on PBMC and mouse brain E18 multiome via the public `pipeline.run`; v0.4.1 fixes `pipeline.run(tfs="hs"/"mm")` species shortcuts. See [CHANGELOG](CHANGELOG.md) and [`validation/`](validation/) for evidence and caveats.
 
 ## Goal
 
@@ -58,9 +51,9 @@ Rust-native replacements for the compute stages plus the glue that scenicplus bu
 | eRegulon assembly (TF × enhancers × target genes) | `rustscenic.eregulon.build_eregulons` | `scenicplus` eRegulon builder |
 | End-to-end pipeline orchestrator | `rustscenic.pipeline.run` | `scenicplus` snakemake |
 
-Bundled with the wheel: HGNC (1,839 human) and MGI (1,721 mouse) TF lists via `rustscenic.data.tfs(species)`. Motif rankings auto-download on first use via `rustscenic.data.download_motif_rankings`. Cellxgene-curated h5ads (ENSEMBL IDs in `var_names`, gene symbols in `var["feature_name"]`) are auto-detected so atlas data works without manual patching.
+Bundled with the wheel: HGNC (1,839 human) and MGI (1,721 mouse) TF lists via `rustscenic.data.tfs(species)`. Motif rankings can be fetched and cached via `rustscenic.data.download_motif_rankings`. Cellxgene-curated h5ads (ENSEMBL IDs in `var_names`, gene symbols in `var["feature_name"]`) are auto-detected so atlas data works without manual patching.
 
-## Quick example (PBMC-3k, end-to-end)
+## Quick example (PBMC-3k, RNA GRN + AUCell)
 
 ```python
 import anndata as ad
@@ -80,7 +73,7 @@ regulons = [
 auc = rustscenic.aucell.score(adata, regulons, top_frac=0.05)
 ```
 
-Full end-to-end script: [`examples/pbmc3k_end_to_end.py`](examples/pbmc3k_end_to_end.py). Runs cold in seconds in a fresh venv. [`docs/tester-quickstart.md`](docs/tester-quickstart.md) is the collaborator smoke-test path.
+Full RNA example script: [`examples/pbmc3k_end_to_end.py`](examples/pbmc3k_end_to_end.py). Runs in about 3 minutes on an 8-core laptop with `n_estimators=500`. [`docs/tester-quickstart.md`](docs/tester-quickstart.md) is the collaborator smoke-test path.
 
 ## Measured against the pyscenic / arboreto reference
 
@@ -88,7 +81,7 @@ Same input on both sides. Every row has a log file under [`validation/`](validat
 
 | Axis | pyscenic / arboreto | **rustscenic** |
 |---|---|---|
-| Installs on fresh Python 3.10–3.13 venv (2026-04) | arboreto: `TypeError: Must supply at least one delayed object` (dask_expr); pyscenic: `ModuleNotFoundError: pkg_resources` in current stacks | GitHub Release wheels and source install succeed; all 4 core stages import |
+| Installs on fresh Python 3.10–3.13 venv | arboreto: `TypeError: Must supply at least one delayed object` (dask_expr); pyscenic: `ModuleNotFoundError: pkg_resources` in current stacks | PyPI wheels and sdist install; core APIs import |
 | AUCell wall-time, Ziegler 2021 atlas (31,602 × 59) | 6.81 s (pyscenic) | 0.25 s |
 | AUCell wall-time, 10x Multiome (10,290 × 1,457) | 18.6 s (pyscenic) | 0.21 s |
 | Peak RSS, 4 stages on 100,000 cells × 20,292 genes | > 40 GB (reported) | 6.3 GB |
@@ -177,7 +170,7 @@ Memory: 100k synthetic multiome 7-stage E2E peaks at **7.09 GB RSS**, vs scenicp
 
 ## Scope and alternatives
 
-rustscenic covers the four legacy SCENIC / SCENIC+ slow stages on CPU. Adjacent tools with different scope:
+rustscenic covers the practical SCENIC / SCENIC+ compute path on CPU. Adjacent tools with different scope:
 
 - **GPU, CUDA** — [flashSCENIC](https://github.com/haozhu233/flashscenic) (uses RegDiffusion, a different algorithm from GENIE3 / GRNBoost2, so outputs are not pyscenic-numerical).
 - **Multiomic enhancer-aware GRN** — [scenicplus](https://github.com/aertslab/scenicplus) (joint scRNA + scATAC enhancer inference; superset of this scope).
@@ -199,7 +192,7 @@ rustscenic cistarget --rankings motifs.feather --regulons grn.parquet --output e
 
 - `crates/` — Rust workspace: `rustscenic-{grn, aucell, topics, preproc, py}`
 - `python/rustscenic/` — Python package, CLI entry point, type stubs
-- `examples/pbmc3k_end_to_end.py` — end-to-end script on real PBMC-3k
+- `examples/pbmc3k_end_to_end.py` — RNA GRN + AUCell script on real PBMC-3k
 - `validation/` — reproducible benchmark scripts + measurement reports for every number above, plus `VALIDATION_SUMMARY.md`
 - `tests/` — pytest suite (152 Python tests, 1 skipped) + Rust crate tests (57)
 - `manuscript/` — preprint source
