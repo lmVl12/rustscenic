@@ -84,11 +84,11 @@ Same input on both sides. Every row has a log file under [`validation/`](validat
 | Axis | pyscenic / arboreto | **rustscenic** |
 |---|---|---|
 | Installs on fresh Python 3.10–3.13 venv | arboreto: `TypeError: Must supply at least one delayed object` (dask_expr); pyscenic: `ModuleNotFoundError: pkg_resources` in current stacks | PyPI wheels and sdist install; core APIs import |
-| AUCell wall-time, Ziegler 2021 atlas (31,602 × 59) | 6.81 s (pyscenic) | 0.25 s |
-| AUCell wall-time, 10x Multiome (10,290 × 1,457) | 18.6 s (pyscenic) | 0.21 s |
+| AUCell wall-time, Ziegler 2021 atlas (31,602 × 59; measured 2026-04, refresh tracked for v0.4.x) | 6.81 s (pyscenic) | 0.25 s |
+| AUCell wall-time, 10x Multiome (10,290 × 1,457; measured 2026-04, refresh tracked for v0.4.x) | 18.6 s (pyscenic) | 0.21 s |
 | Peak RSS, 4 stages on 100,000 cells × 20,292 genes | > 40 GB (reported) | 6.3 GB |
 | Cistarget kernel vs `ctxcore.recovery.aucs` | reference | Pearson 1.0000, mean abs diff 2.4 × 10⁻⁵ |
-| AUCell per-cell Pearson vs pyscenic (Ziegler, 31,602 cells) | reference | 0.984 mean, 91.7 % of cells > 0.95 |
+| AUCell per-cell Pearson vs pyscenic (Ziegler, 31,602 cells; measured 2026-04, refresh tracked for v0.4.x) | reference | 0.984 mean, 91.7 % of cells > 0.95 |
 | Canonical airway TFs matching literature (Ziegler, n=14) | 8 / 14 (pyscenic, unit weights) | 8 / 14 — same hits, same 5/14 misses |
 | Bit-identical output under same seed across threaded runs | no (dask non-determinism) | yes |
 | Runtime dependencies | 40 + | 5 |
