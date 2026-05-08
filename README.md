@@ -21,7 +21,7 @@ flowchart LR
     atac["ATAC<br/>AnnData/fragments"] --> chrom["topics<br/>cisTarget<br/>enhancer links"]
     grn --> ereg["eRegulons"]
     chrom --> ereg
-    ereg --> auc["AUCell<br/>cells x regulons"]
+    grn --> auc["AUCell<br/>cells x regulons"]
 ```
 
 ## Status
@@ -59,8 +59,10 @@ Bundled with the wheel: HGNC (1,839 human) and MGI (1,721 mouse) TF lists via `r
 import anndata as ad
 import rustscenic.grn, rustscenic.aucell
 
+import rustscenic.data
+
 adata = ad.read_h5ad("rna.h5ad")
-tfs = rustscenic.grn.load_tfs("hs_hgnc_tfs.txt")
+tfs = rustscenic.data.tfs("hs")  # bundled HGNC list (1,839 TFs)
 
 # 1. GRN inference
 grn = rustscenic.grn.infer(adata, tf_names=tfs, n_estimators=5000, seed=777)
@@ -194,7 +196,7 @@ rustscenic cistarget --rankings motifs.feather --regulons grn.parquet --output e
 - `python/rustscenic/` — Python package, CLI entry point, type stubs
 - `examples/pbmc3k_end_to_end.py` — RNA GRN + AUCell script on real PBMC-3k
 - `validation/` — reproducible benchmark scripts + measurement reports for every number above, plus `VALIDATION_SUMMARY.md`
-- `tests/` — pytest suite (152 Python tests, 1 skipped) + Rust crate tests (57)
+- `tests/` — pytest suite (169 Python tests, 1 skipped) + Rust crate tests (57)
 - `manuscript/` — preprint source
 - `docs/topic-collapse.md` — known algorithmic caveat
 
