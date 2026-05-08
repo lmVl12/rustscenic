@@ -28,6 +28,8 @@ flowchart LR
 
 **Current release: v0.4.1** on PyPI. v0.4.0 established publishable real-data end-to-end on PBMC and mouse brain E18 multiome via the public `pipeline.run`; v0.4.1 fixes `pipeline.run(tfs="hs"/"mm")` species shortcuts. See [CHANGELOG](CHANGELOG.md) and [`validation/`](validation/) for evidence and caveats.
 
+Open follow-ups tracked for v0.4.x: AUCell wall-time logs from the 2026-04 stack pending a refresh, region-cistarget kernel parity vs ctxcore, and raw 10x `pipeline.run` without caller-side ATAC pre-subset (current docs require the subset).
+
 ## Goal
 
 rustscenic is being built as the single-install replacement for the practical SCENIC / SCENIC+ workflow: RNA GRN inference, AUCell regulon activity, motif enrichment, ATAC fragment preprocessing, topic modelling, enhancer-gene linking, and eRegulon assembly in one package.
@@ -97,7 +99,7 @@ Tool-to-tool variation (same hits, same misses on the same 14 canonical TFs) is 
 
 ## Per-stage detail
 
-Numbers are **rustscenic**'s values. The measurement context (dataset, `n_cells`, etc.) is in each row.
+Numbers are **rustscenic**'s values. The measurement context (dataset, `n_cells`, version) is in each row. v0.4.x parity refresh against current upstream stacks is tracked in [`docs/v0.4.x-benchmark-plan.md`](docs/v0.4.x-benchmark-plan.md).
 
 ### GRN — `arboreto.grnboost2` replacement
 
@@ -184,6 +186,10 @@ rustscenic does not bundle the aertslab motif ranking feather databases (300 MB 
 ## CLI
 
 ```bash
+# End-to-end orchestrator (recommended):
+rustscenic pipeline  --rna data.h5ad --tfs tfs.txt --output out/
+
+# Per-stage CLI:
 rustscenic grn       --expression data.h5ad --tfs tfs.txt --output grn.parquet
 rustscenic aucell    --expression data.h5ad --regulons grn.parquet --output auc.parquet
 rustscenic topics    --expression atac.h5ad --output topics --n-topics 30
