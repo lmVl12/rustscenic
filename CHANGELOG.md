@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.4.2 — 2026-05-10
 
 ### Added
 
@@ -10,7 +10,28 @@
   through motif-to-TF annotations. When `pipeline.run(...,
   motif_annotations=...)` is supplied, the active `regulons.json` and
   AUCell matrix use the pruned regulon set; raw GRN top-target candidates
-  are kept separately as `candidate_regulons.json`.
+  are kept separately as `candidate_regulons.json`. Closes the
+  regulon-pruning gap surfaced by the Kamath DA-neuron run (#68).
+- **Evaluation-metrics doc** — `docs/evaluation-metrics.md` now documents
+  the comparator-and-caveat policy for ARI and related clustering metrics
+  reported on community runs. Linked from the README issues block.
+
+### Bug fixes
+
+- **Compound regulon-suffix parsing** — `_tf_from_regulon_name` regressed
+  in `pipeline.py` and `eregulon.py`, breaking on names like
+  `FOXP3_extended_regulon` and `PAX5_extended(+)`. All three call sites
+  now share a loop-until-stable parser.
+- **All-zero topic-cell rows** — `topics.cell_assignment` no longer
+  silently routes cells with zero topic mass to `Topic_0`. Such rows now
+  warn and surface as `NA`.
+
+### Other
+
+- `pipeline.run` now warns when `motif_annotations` is supplied without
+  `cistarget_rankings` (silent ignore previously) and when annotation
+  pruning removes every regulon (auto-fallback to candidates with a
+  `regulon_source="candidate_fallback"` field).
 
 ## 0.4.1 — 2026-05-07
 

@@ -185,4 +185,4 @@ scope:
   tested? Send a slice; if it breaks, we want it to break in CI.
 
 Repo: <https://github.com/Ekin-Kahraman/rustscenic>
-Latest release: v0.4.1 (2026-05-07) on PyPI.
+Latest release: v0.4.2 (2026-05-10) on PyPI.

@@ -26,7 +26,7 @@ flowchart LR
 
 ## Status
 
-**Current release: v0.4.1** on PyPI. v0.4.0 established publishable real-data end-to-end on PBMC and mouse brain E18 multiome via the public `pipeline.run`; v0.4.1 fixes `pipeline.run(tfs="hs"/"mm")` species shortcuts. See [CHANGELOG](CHANGELOG.md) and [`validation/`](validation/) for evidence and caveats.
+**Current release: v0.4.2** on PyPI. v0.4.0 established publishable real-data end-to-end on PBMC and mouse brain E18 multiome via the public `pipeline.run`; v0.4.1 fixes `pipeline.run(tfs="hs"/"mm")` species shortcuts; v0.4.2 adds motif-annotation cisTarget pruning (closing the regulon-pruning gap from the Kamath DA-neuron community run, #68). See [CHANGELOG](CHANGELOG.md) and [`validation/`](validation/) for evidence and caveats.
 
 Open follow-ups tracked for v0.4.x: AUCell wall-time logs from the 2026-04 stack pending a refresh, region-cistarget kernel parity vs ctxcore, and raw 10x `pipeline.run` without caller-side ATAC pre-subset (current docs require the subset).
 
