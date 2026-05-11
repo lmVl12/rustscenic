@@ -1,0 +1,91 @@
+{
+    "test": "https://www.10xgenomics.com/datasets/multiome-gemx-10k-human-brain",
+    "rustscenic_version": "0.4.1",
+    "api_call": "rustscenic.grn.infer(n_estimators=300) + rustscenic.aucell.score + rustscenic.topics.fit(K=10)",
+    "dataset": {
+        "name": "human_brain_10k"
+    },
+    "shapes": {
+        "rna_post_qc": [
+            8215,
+            32317
+        ],
+        "atac_subset_to_rna_cells": [
+            8215,
+            123089
+        ]
+    },
+    "metrics": {
+        "ari": 0.4514128043357203,
+        "peak_rss_gb": 9.081192016601562,
+        "n_regulons": 1748
+    },
+    "elapsed_per_stage": {
+        "preproc": 0.0,
+        "topics": 1056.694616769002,
+        "grn": 2144.098254774999,
+        "aucell": 1.915713626998695,
+        "cistarget": null,
+        "enhancer": null,
+        "eregulons": null
+    },
+    "env": {
+        "python": "3.12.13",
+        "scanpy": "1.12.1",
+        "anndata": "0.12.11",
+        "os": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.35",
+        "cpu": "x86_64"
+    },
+    "headline_results": [
+        {
+            "name": "SRRM3_regulon",
+            "F": 12782.8017578125,
+            "p": 0.0
+        },
+        {
+            "name": "CELF4_regulon",
+            "F": 12251.7001953125,
+            "p": 0.0
+        },
+        {
+            "name": "ZMAT4_regulon",
+            "F": 11341.478515625,
+            "p": 0.0
+        },
+        {
+            "name": "ADARB1_regulon",
+            "F": 10330.66015625,
+            "p": 0.0
+        },
+        {
+            "name": "BCL11A_regulon",
+            "F": 9889.61328125,
+            "p": 0.0
+        },
+        {
+            "name": "ZBTB20_regulon",
+            "F": 9649.9609375,
+            "p": 0.0
+        },
+        {
+            "name": "ZNF483_regulon",
+            "F": 9643.9892578125,
+            "p": 0.0
+        },
+        {
+            "name": "CELF5_regulon",
+            "F": 9555.9501953125,
+            "p": 0.0
+        },
+        {
+            "name": "GLIS1_regulon",
+            "F": 9408.13671875,
+            "p": 0.0
+        },
+        {
+            "name": "ZNF273_regulon",
+            "F": 9357.5400390625,
+            "p": 0.0
+        }
+    ]
+}
