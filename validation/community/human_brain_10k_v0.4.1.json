@@ -34,7 +34,7 @@
   },
   "headline_counts": {
     "n_regulons": 1748,
-    "n_grn_edges": null,
+    "n_grn_edges": 4293902,
     "n_cistarget_rows": null,
     "n_enhancer_links": null,
     "n_eregulons": null
